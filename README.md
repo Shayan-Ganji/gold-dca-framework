@@ -40,44 +40,69 @@ This framework demonstrates the principles of **Dynamic Dollar-Cost Averaging (D
 
 ---
 
-## 🔒 Showcase Scope & Proprietary Platform Separation
+## 🖥️ 1. Showcase Platform Features
 
-This repository serves strictly as an **educational showcase, visualization layer, and Proof-of-Concept (PoC)**.
-
-> [!IMPORTANT]
-> **The Core Proprietary Production Engine** is developed and operated privately to safeguard intellectual property and trading strategy confidentiality. Key distinctions of the full private platform include:
-> - **Ingestion of Over 60 Telemetry Variables:** Real-time data feeds from domestic reference platforms (such as TGJU and tala.live) combined with global macro series, tracking currency divergence, velocity, and liquidity flows.
-> - **Hybrid Machine Learning Ensemble System:** Multi-horizon predictive architecture combining specialized ensemble classifiers to model non-linear asset dynamics and identify accumulation regimes.
-> - **Advanced Quantitative Risk Controls:** Dynamic invalidation bounds, trailing stops, and multi-tier profit-locking parameters.
-> - **Automated Persistence & Execution:** Industrial-grade data pipelines, audit logs, and continuous telemetry monitoring.
->
-> In this public showcase, live signals remain securely locked (`VIP Only`) to protect proprietary execution strategies, while verified historical backtests and real-time technical indicators remain fully accessible.
-
----
-
-## 📊 Showcase Platform Features
+The public showcase is designed to demonstrate platform capabilities, data visualization, and empirical DCA performance:
 
 1. **Real-time Market & Technical Dashboard (`/dashboard`):**
-   - Live rates for 17K Melted Gold (Mesghal), 18K Gold, Global Ounce, and Emami Coin with nominal bubble calculations.
-   - Quantitative Tactical Radar: Tracking RSI(14), MACD momentum divergence, Gold/USD ratio, and active market regime.
-   - S/R Depth Ladder: Visual channel range gauge showing exact real-time price position between multi-horizon KMeans support and resistance clusters.
-   - Quantitative Arbitrage & Rotation Matrix: Evaluating divergence between physical gold, free USD, and minted coinage.
-   - Historical Signal Track-Record Chart: Auditing past model predictions against long-term price series.
+   - **Live Rates Board:** Real-time quotes for 17K Melted Gold (Mesghal), 18K Gold, Global Spot Gold (XAU), and Emami Minted Coin with nominal bubble calculations.
+   - **Tactical Quantitative Radar:** Continuous monitoring of RSI(14), MACD momentum divergence, Gold/USD parity ratio, and market volatility regimes.
+   - **S/R Depth Ladder (K-Means Clustering):** Visual channel range gauge indicating current price positioning relative to nearest support ($S_1$) and resistance ($R_1$) clusters, daily pivot, and channel depth percentage.
+   - **Asset Rotation & Arbitrage Matrix:** Empirical divergence analysis between physical gold, free USD, and minted coinage to identify mispriced accumulation opportunities.
+   - **Historical Signal Track-Record:** Comprehensive audit of historical model classifications mapped against actual market price progression.
 
 2. **Interactive DCA Simulation Lab (`/dca`):**
-   - Interactive backtesting engine comparing DCA accumulation vs. Lump-Sum investments across 3M, 6M, 1Y, 3Y, and historical horizons.
-   - Detailed breakdown of total invested capital, acquired gold weight, weighted average cost per gram, and net profit.
+   - Interactive backtesting laboratory comparing systematic DCA strategies against Lump-Sum entries across multiple time horizons (3M, 6M, 1Y, 3Y, and historical series).
+   - Detailed metrics on acquired gold weight, capital deployment efficiency, and Weighted Average Cost (WAC).
 
 ---
 
-## 🛠️ Architecture & Technology Stack
+## 🚀 2. Production System Capabilities
+
+> [!IMPORTANT]
+> **The Core Proprietary Production Engine** is developed and operated in a private production environment to safeguard intellectual property, trading strategy confidentiality, and capital safety. Key capabilities of the operational system include:
+
+1. **Real-Time Telemetry Pipeline (Over 60 Macro Variables):**
+   - Sub-second data ingestion from domestic reference sources (such as TGJU and tala.live) combined with global macro series (XAU spot, crude oil, DXY, and interest rates).
+   - Automated Cross-Validation and anomaly detection engine protecting execution against malicious or erroneous quote spikes.
+
+2. **Hybrid Machine Learning Ensemble System:**
+   - Multi-horizon predictive architecture leveraging ensemble classifiers to capture non-linear supply/demand patterns.
+   - Identification of institutional accumulation phases, equilibrium ranges, and secular expansion cycles.
+   - **Quant Advisor Engine:** Automated prescriptive decision guidance for claims offsetting, collateral redemption, and optimal staged exits.
+
+3. **Dynamic Capital Preservation & Risk Controls:**
+   - Volatility-adjusted trailing stop-loss logic (Chandelier Exit / ATR-based) with dynamic invalidation thresholds.
+   - Multi-tier progressive profit-locking boundaries (TP1 and TP2).
+
+4. **Double-Entry Accounting & Real-Time Ledger:**
+   - Real-time journal entries, automated settlement accounting, weighted inventory tracking, and breakeven point calculation.
+   - Investor partner accounting module with mathematically exact profit-sharing proportional to active liquidity deployment.
+
+---
+
+## 📱 3. Production Access & Project Inquiries
+
+Operational access to algorithmic signals, advisor reports, and system management is provisioned through the **Official Telegram Bot**:
+
+👉 **Official Telegram Bot & Admin Contact:** [@TalaOracle_Bot](https://t.me/TalaOracle_Bot)
+
+### Bot Access Tiers:
+- 👤 **Guest / Public Tier:** Free access to live market rates, intrinsic valuation, bubble metrics, and system overview.
+- 📩 **Contact Project Lead:** By selecting **"📩 ارتباط با ادمین" (Contact Admin)** in the bot, employers, researchers, and partners can send inquiries or collaboration proposals directly to the project lead (**Shayan Ganji**).
+- 🤝 **Investor Partners Pool:** Dedicated authenticated portal with PIN security for registered capital partners to monitor active capital, closed settlements, and net realized profit.
+- 👑 **Institutional / VIP Access:** Real-time algorithmic machine learning signals, risk management parameters, and Quant Advisor tactical guidance.
+
+---
+
+## 🛠️ Showcase Repository Structure
 
 ```
 showcase/
 ├── backend/
-│   ├── main.py                 # FastAPI service serving clean market quotes & technical indicators
+│   ├── main.py                 # FastAPI service serving market rates, clustering, and technical metrics
 │   ├── gold_history.csv        # Multi-year historical series for DCA backtester
-│   ├── gold_data_cache.csv     # Recent series for KMeans multi-horizon S/R calculations
+│   ├── gold_data_cache.csv     # Recent quotes for KMeans multi-horizon S/R calculations
 │   ├── historical_signals.json # Verified historical model signals for performance audit
 │   ├── Dockerfile
 │   └── requirements.txt
@@ -96,10 +121,7 @@ showcase/
 
 ---
 
-## 🤝 Contact & Inquiries
-
-For technical feedback, methodology reviews, research collaborations, or quantitative investment partnerships, you can reach out directly to the project lead (**Shayan Ganji**) via the official Telegram bot:
-
-👉 **Official Telegram Bot & Admin Contact:** [@TalaOracle_Bot](https://t.me/TalaOracle_Bot)
-
-> **How to submit an inquiry:** Start the bot and select **"📩 ارتباط با ادمین" (Contact Admin)** to submit your message directly to the project lead.
+<div align="center">
+<strong>Architected & Developed by Shayan Ganji</strong><br/>
+<em>Quantitative Finance & Algorithmic Systems Engineering</em>
+</div>
