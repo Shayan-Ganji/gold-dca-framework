@@ -389,6 +389,7 @@ export interface SignalChartData {
   action_text?: string;
   prob_buy?: number;
   prob_sell?: number;
+  is_locked?: boolean;
 }
 
 export interface AssetAllocationData {

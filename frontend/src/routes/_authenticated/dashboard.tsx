@@ -6,6 +6,7 @@ import { MetricCards } from "@/components/dashboard/metric-cards";
 import { TechnicalOverviewPanel } from "@/components/dashboard/technical-overview";
 import { TacticalRadar } from "@/components/dashboard/tactical-radar";
 import { RotationOracle } from "@/components/dashboard/rotation-oracle";
+import { SignalHistoryChart } from "@/components/dashboard/signal-history-chart";
 import { useMarket } from "@/lib/market-engine";
 import { getMyProfile, getLedgerPortfolioSummary } from "@/lib/api";
 import { computePortfolio, type LedgerRow } from "@/lib/portfolio";
@@ -67,6 +68,8 @@ function DashboardBody({ initialCapital }: { initialCapital: number }) {
         <TechnicalOverviewPanel market={market} />
         <TacticalRadar market={market} />
       </div>
+
+      <SignalHistoryChart />
 
       <RotationOracle market={market} />
     </div>

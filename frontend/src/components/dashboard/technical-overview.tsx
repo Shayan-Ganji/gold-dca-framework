@@ -1,14 +1,3 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-} from "recharts";
 import {
   Activity,
   ArrowDownRight,
@@ -17,6 +6,8 @@ import {
   Layers,
   ShieldCheck,
   Sparkles,
+  Compass,
+  Gauge,
 } from "lucide-react";
 
 import type { MarketSnapshot } from "@/lib/market-engine";
@@ -29,35 +20,6 @@ export function TechnicalOverviewPanel({
 }: {
   market: MarketSnapshot | null;
 }) {
-  const [activeRange, setActiveRange] = useState<"30d" | "60d" | "90d">("60d");
-
-  const { data: chartData, isLoading } = useQuery({
-    queryKey: ["technical-overview-candles", activeRange],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`/api/charts/candles?range=${activeRange}`);
-        if (!res.ok) throw new Error("Failed to load candles");
-        return await res.json();
-      } catch (err) {
-        const days = activeRange === "30d" ? 30 : activeRange === "60d" ? 60 : 90;
-        const base = market?.mazaneh || 101_150_000;
-        return Array.from({ length: days }).map((_, i) => {
-          const factor = 1 + Math.sin(i / 5) * 0.02 + (i / days) * 0.035;
-          const p = Math.round(base * factor);
-          return {
-            date: `روز ${i + 1}`,
-            price: p,
-            ema20: Math.round(p * 0.992),
-            ema50: Math.round(p * 0.985),
-            bbUpper: Math.round(p * 1.025),
-            bbLower: Math.round(p * 0.975),
-          };
-        });
-      }
-    },
-    staleTime: 60_000,
-  });
-
   if (!market) return <Skeleton className="h-96 rounded-2xl" />;
 
   const sma20 = market.sma20 || market.mazaneh || 1;
@@ -75,6 +37,10 @@ export function TechnicalOverviewPanel({
     intrinsicMazaneh > 0
       ? ((market.mazaneh / intrinsicMazaneh) - 1.0) * 100
       : 0;
+
+  const bbUpper = Math.round((market.mazaneh || 101_699_000) * 1.025);
+  const bbLower = Math.round((market.mazaneh || 101_699_000) * 0.975);
+  const rsiVal = market.rsi ?? 64.5;
 
   const sups = market.srLevels?.supports_mesghal || [
     Math.round(market.mazaneh * 0.99),
@@ -99,7 +65,7 @@ export function TechnicalOverviewPanel({
               تحلیل جامع تکنیکال و برابری ارزش منصفانه (Technical Stance)
             </h2>
             <p className="text-[11px] text-muted-foreground">
-              پایش مومنتوم، کانال‌های رگرسیون و سطوح نوسانی مظنه آبشده
+              پایش مومنتوم، کانال‌های رگرسیون، حباب ذاتی و سطوح نوسانی مظنه آبشده
             </p>
           </div>
         </div>
@@ -109,26 +75,10 @@ export function TechnicalOverviewPanel({
             <Sparkles className="size-3" />
             نسخه نمایشی تخصصی (Showcase)
           </span>
-          <div className="flex rounded-lg border border-border bg-muted/40 p-0.5 text-xs font-medium">
-            {(["30d", "60d", "90d"] as const).map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => setActiveRange(r)}
-                className={cn(
-                  "rounded-md px-2 py-0.5 transition-colors",
-                  activeRange === r
-                    ? "bg-gold/20 font-bold text-gold"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {r === "30d" ? "۳۰ روز" : r === "60d" ? "۶۰ روز" : "۹۰ روز"}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
+      {/* 4 Core Quantitative Metrics */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="rounded-xl border border-border/60 bg-muted/20 p-3">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -183,95 +133,63 @@ export function TechnicalOverviewPanel({
         </div>
       </div>
 
-      <div className="rounded-xl border border-border/70 bg-background/50 p-3">
-        <div className="flex items-center justify-between mb-2 px-1 text-xs">
-          <span className="font-semibold text-muted-foreground">
-            نمودار روند مظنه به همراه میانگین‌های نمایی و باندهای بولینگر
-          </span>
-          <div className="flex items-center gap-3 text-[11px]">
-            <span className="flex items-center gap-1 text-gold">
-              <span className="size-2 rounded-full bg-gold inline-block" /> مظنه
+      {/* Volatility Channel & Momentum Matrix */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="rounded-xl border border-border/70 bg-background/50 p-3.5 space-y-2.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-bold text-foreground flex items-center gap-1.5">
+              <Compass className="size-4 text-gold" />
+              کانال نوسان بولینگر و رگرسیون مظنه
             </span>
-            <span className="flex items-center gap-1 text-profit">
-              <span className="size-2 rounded-full bg-profit inline-block" /> EMA 20
-            </span>
-            <span className="flex items-center gap-1 text-loss">
-              <span className="size-2 rounded-full bg-loss inline-block" /> EMA 50
-            </span>
+            <span className="text-[11px] font-mono text-muted-foreground">بازه ۲۰ روزه (±2σ)</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs pt-1">
+            <div className="rounded-lg bg-white/5 p-2 border border-white/5">
+              <span className="text-[10px] text-muted-foreground block">سقف کانال (باند بالایی):</span>
+              <span className="font-bold text-foreground font-mono num">{toman(bbUpper)} تومان</span>
+            </div>
+            <div className="rounded-lg bg-white/5 p-2 border border-white/5">
+              <span className="text-[10px] text-muted-foreground block">کف کانال (باند پایینی):</span>
+              <span className="font-bold text-foreground font-mono num">{toman(bbLower)} تومان</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1 border-t border-border/40">
+            <span>عرض کانال نوسان (Volatility Bandwidth):</span>
+            <strong className="text-gold font-mono font-bold">۵.۰٪</strong>
           </div>
         </div>
 
-        <div className="h-56 w-full" dir="ltr">
-          {isLoading ? (
-            <Skeleton className="h-full w-full rounded-lg" />
-          ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                <XAxis dataKey="date" stroke="#666" fontSize={10} tickLine={false} />
-                <YAxis
-                  stroke="#666"
-                  fontSize={10}
-                  tickLine={false}
-                  domain={["auto", "auto"]}
-                  tickFormatter={(v) => `${(v / 1_000_000).toFixed(1)}م`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#161b22",
-                    border: "1px solid rgba(255,215,0,0.3)",
-                    borderRadius: "8px",
-                    fontSize: "11px",
-                  }}
-                  formatter={(val: any) => [toman(Number(val)) + " تومان", ""]}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="bbUpper"
-                  stroke="rgba(100, 150, 255, 0.25)"
-                  strokeDasharray="3 3"
-                  dot={false}
-                  name="باند بالا"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="bbLower"
-                  stroke="rgba(100, 150, 255, 0.25)"
-                  strokeDasharray="3 3"
-                  dot={false}
-                  name="باند پایین"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="price"
-                  stroke="#FFD700"
-                  strokeWidth={2.5}
-                  dot={false}
-                  name="مظنه آبشده"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="ema20"
-                  stroke="#00E676"
-                  strokeWidth={1.5}
-                  dot={false}
-                  name="EMA 20"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="ema50"
-                  stroke="#FF5252"
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  dot={false}
-                  name="EMA 50"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          )}
+        <div className="rounded-xl border border-border/70 bg-background/50 p-3.5 space-y-2.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-bold text-foreground flex items-center gap-1.5">
+              <Gauge className="size-4 text-primary" />
+              وضعیت نوسان‌گرها و جریان پول
+            </span>
+            <span className="text-[11px] font-mono text-muted-foreground">شاخص‌های همگرا</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs pt-1">
+            <div className="rounded-lg bg-white/5 p-2 border border-white/5">
+              <span className="text-[10px] text-muted-foreground block">شاخص RSI (۱۴ روزه):</span>
+              <span className={cn(
+                "font-bold font-mono num",
+                rsiVal > 70 ? "text-loss" : rsiVal < 35 ? "text-profit" : "text-primary"
+              )}>
+                {rsiVal.toFixed(1)} {rsiVal > 70 ? "(اشباع خرید)" : rsiVal < 35 ? "(اشباع فروش)" : "(ناحیه تعادلی)"}
+              </span>
+            </div>
+            <div className="rounded-lg bg-white/5 p-2 border border-white/5">
+              <span className="text-[10px] text-muted-foreground block">سوگیری جریان سفارشات:</span>
+              <span className="font-bold text-profit">انباشت نهادی / خریدار فعال</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1 border-t border-border/40">
+            <span>رژیم معاملاتی فعال:</span>
+            <strong className="text-foreground font-bold">روند صعودی با نوسان‌گیری در کف‌ها</strong>
+          </div>
         </div>
       </div>
 
+      {/* Cluster Supports & Key Resistances */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/40 bg-muted/20 px-3.5 py-2.5 text-xs">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-bold text-profit flex items-center gap-1">

@@ -27,7 +27,7 @@ const HORIZON_DAYS: Record<Horizon, number> = {
 };
 
 export function SignalHistoryChart({ className }: { className?: string }) {
-  const [horizon, setHorizon] = useState<Horizon>("1D");
+  const [horizon, setHorizon] = useState<Horizon>("3M");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [hoveredPoint, setHoveredPoint] = useState<SignalChartData | null>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -138,6 +138,13 @@ export function SignalHistoryChart({ className }: { className?: string }) {
       }
 
       const currentAction = row.action ?? 1;
+      const isLatest = i === slicedData.length - 1;
+
+      // CRITICAL: Current/locked candle NEVER shows entry/exit markers
+      if (row.is_locked || isLatest) {
+        prevAction = currentAction;
+        continue;
+      }
 
       // 1. Initial active position marker at the beginning of the viewed session
       const isInitialActive = i === 0 && currentAction !== 1;
@@ -268,7 +275,7 @@ export function SignalHistoryChart({ className }: { className?: string }) {
               نمودار جامع سیگنال‌های هوش مصنوعی (v2.7 Proactive Oracle)
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              رصد نقاط اکسترمم لوکال و گلوبال بر اساس قیمت مظنه (تومان) همراه با کالیبراسیون هوشمند
+              رصد سوابق نقاط ورود و خروج مدل بر اساس قیمت مظنه طلا (تومان) همراه با کالیبراسیون هوشمند
             </p>
           </div>
         </div>
@@ -342,7 +349,11 @@ export function SignalHistoryChart({ className }: { className?: string }) {
 
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground font-semibold">سیگنال هوش مصنوعی در این نقطه:</span>
-            {hoveredPoint.action === 2 ? (
+            {hoveredPoint.is_locked || hoveredPoint.action_text?.includes("VIP") ? (
+              <span className="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-black flex items-center gap-1.5 shadow-lg">
+                🔒 سیگنال لحظه‌ای: ویژه کاربران VIP (محرمانه)
+              </span>
+            ) : hoveredPoint.action === 2 ? (
               hoveredPoint.action_text === "STEP BUY" || hoveredPoint.action_text === "PARTIAL BUY" || hoveredPoint.action_text === "خرید پله‌ای" ? (
                 <span className="px-3 py-1 rounded-lg bg-emerald-400 text-black font-black flex items-center gap-1.5 shadow-lg shadow-emerald-400/20 border border-emerald-300">
                   🟢 خرید پله‌ای (STEP BUY - ورود تدریجی و مدیریت استراتژیک نقدینگی)
