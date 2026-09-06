@@ -1,0 +1,106 @@
+{
+  "action": "STRONG BUY",
+  "signal_fa": "خرید قوی (Strong Buy)",
+  "ai_advice": "👑 **توصیه استراتژیک سرور v2.7 (Proactive Oracle):** بازار در محدوده اشباع فروش و حمایت آماری قوی قرار دارد (شاخص اطمینان آنتروپی: 6٪). رادارهای شتاب‌سج ورود نقدینگی را تایید می‌کنند.",
+  "strategic_stance": "🟢 روند استراتژیک (۳ تا ۵ روزه): صعودی",
+  "intraday_phase": "⏸️ فاز تابلوی روز: اصلاح میان‌روزی / احتیاط در خرید سقف",
+  "trailing_risk": {
+    "trailing_sl_toman": 101233000.0,
+    "step_1_tp_toman": 101803000.0,
+    "step_2_tp_toman": 102203000.0,
+    "protection_note": "حد ضرر متحرک در فاصله ۲۲۰ خط زیر سقف فعال است؛ در صورت چرخش ناگهانی تابلوی امروز، سود پوزیشن‌ها قفل می‌شود."
+  },
+  "ai_council": {
+    "active": true,
+    "verdict_fa": "🛡️ **اجماع شورای کوانتومی v3.0 (Super-Trend Ride):** بازار در رژیم سوپرسایکل و شکست سقف تاریخی قرار دارد. اسیلاتورهای ضد روند تضعیف شده‌اند؛ خروج شتاب‌زده ممنوع؛ پوزیشن‌های برنده را با تریلینگ‌استاپ چاندلیر (مرز حفاظتی 100,643,000 تومان) تا سقف بدوانید.",
+    "chandelier_stop_toman": 100643000.0,
+    "is_super_trend_active": true,
+    "all_weather_regime_fa": "🚀 رژیم سوپرسایکل و پرواز پارابولیک (Super-Cycle)",
+    "regime_tone": "profit",
+    "squeeze_fuel_score": 100.0,
+    "gated_rsi_status": "خفه شده (Muted 85%)",
+    "engines": [
+      {
+        "id": "macro_5d",
+        "title_fa": "روند کلان ۵ روزه",
+        "status_fa": "🟢 صعودی پرقدرت (Macro Bull)",
+        "tone": "profit",
+        "score": 90
+      },
+      {
+        "id": "tactical_2d",
+        "title_fa": "سویینگ ۲ روزه (هسته XGBoost)",
+        "status_fa": "خرید قوی (Strong Buy)",
+        "tone": "profit",
+        "score": 50
+      },
+      {
+        "id": "intraday_1d",
+        "title_fa": "تابلوی درون‌روزی ۱ روزه",
+        "status_fa": "⚡ نقدشوندگی فعال",
+        "tone": "profit",
+        "score": 85
+      },
+      {
+        "id": "bottom_hunter",
+        "title_fa": "متخصص کف‌یاب (Bottom Hunter)",
+        "status_fa": "🎯 ماشه کف‌یابی فعال (شکار واگرایی)",
+        "tone": "profit",
+        "score": 95
+      },
+      {
+        "id": "super_trend_ride",
+        "title_fa": "تعقیب سوپرسایکل (Chandelier Ride)",
+        "status_fa": "⚪ رژیم تعادلی",
+        "tone": "neutral",
+        "chandelier_stop_toman": 100643000.0,
+        "is_active": false,
+        "score": 50
+      }
+    ]
+  },
+  "entropy_confidence": 0.058,
+  "prob_buy": 0.49628105897548974,
+  "prob_hold": 0.20908383754145612,
+  "prob_sell": 0.29463510348305416,
+  "top_drivers": [
+    {
+      "Feature": "Crash_Regime_Flag",
+      "Importance": 0.07657435536384583
+    },
+    {
+      "Feature": "Stoch_K",
+      "Importance": 0.04216668754816055
+    },
+    {
+      "Feature": "Peak_Exhaustion_Ratio",
+      "Importance": 0.02528342977166176
+    }
+  ],
+  "updated_at": 1788693720.6364403,
+  "sma20": 212526809.01472828,
+  "macd": 0.05625223658496396,
+  "macd_signal": 0.04886420114126758,
+  "rsi": 80.51408384285968,
+  "gold_usd_ratio": 0.7257596260352365,
+  "coin_habab": 2.8158942006292373,
+  "coin_global_habab": -0.507797588748546,
+  "melt_habab": -3.2269485870378687,
+  "dist_to_max30": -0.01072390305745545,
+  "market_regime": "🟢 صعودی با نوسان ملایم (Bull Calm)",
+  "market_regime_code": 3,
+  "staircase_hedge": {
+    "active": true,
+    "override_triggered": false,
+    "step_1_take_profit_pct": 33,
+    "step_2_take_profit_pct": 66,
+    "reason_fa": "هشدار اصلاح موقت تاکتیکی؛ پیشنهاد تثبیت سود پله‌ای (۳۳ تا ۶۶٪) بر پایه آنالیز آنتروپی و ورود مجدد در اولین کف حمایتی."
+  },
+  "proactive_radars": {
+    "usdt_velocity": -2.9979,
+    "habab_acceleration": 0.3976,
+    "intrinsic_velocity": -1.8608,
+    "cross_market_alignment": 0.0937,
+    "status_fa": "🚨 رصد شتاب غیرعادی! فعال‌سازی رادار هشدار زودهنگام"
+  }
+}

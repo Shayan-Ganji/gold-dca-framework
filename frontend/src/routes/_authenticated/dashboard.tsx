@@ -8,8 +8,7 @@ import { TacticalRadar } from "@/components/dashboard/tactical-radar";
 import { RotationOracle } from "@/components/dashboard/rotation-oracle";
 import { SignalHistoryChart } from "@/components/dashboard/signal-history-chart";
 import { useMarket } from "@/lib/market-engine";
-import { getMyProfile, getLedgerPortfolioSummary } from "@/lib/api";
-import { computePortfolio, type LedgerRow } from "@/lib/portfolio";
+import { getMyProfile } from "@/lib/api";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -42,27 +41,17 @@ function DashboardPage() {
       displayName={account?.profile?.display_name ?? "کاربر مهمان (نمایشی)"}
       username={account?.profile?.username ?? "guest_demo"}
     >
-      <DashboardBody initialCapital={Number(account?.profile?.initial_capital ?? 100_000_000)} />
+      <DashboardBody />
     </AppShell>
   );
 }
 
-function DashboardBody({ initialCapital }: { initialCapital: number }) {
+function DashboardBody() {
   const market = useMarket();
-  const { data: summaryData } = useQuery({
-    queryKey: ["ledger-portfolio-summary"],
-    queryFn: getLedgerPortfolioSummary,
-  });
-  const rows = summaryData?.transactions || [];
-
-  const stats =
-    market && summaryData
-      ? computePortfolio(rows as LedgerRow[], market.gram18, initialCapital, summaryData.portfolio_stats)
-      : null;
 
   return (
     <div className="space-y-5">
-      <MetricCards stats={stats} market={market} />
+      <MetricCards market={market} />
 
       <div className="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
         <TechnicalOverviewPanel market={market} />

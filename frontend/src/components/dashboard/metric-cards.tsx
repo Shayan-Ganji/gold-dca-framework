@@ -1,8 +1,6 @@
 import { Info } from "lucide-react";
 import type { MarketSnapshot } from "@/lib/market-engine";
-import type { PortfolioStats } from "@/lib/portfolio";
-import { grams, pct, signedToman, toman } from "@/lib/format";
-import { TickValue } from "@/components/tick-value";
+import { pct, toman } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -42,13 +40,11 @@ function Metric({
 }
 
 export function MetricCards({
-  stats,
   market,
 }: {
-  stats: PortfolioStats | null;
   market: MarketSnapshot | null;
 }) {
-  if (!stats || !market) {
+  if (!market || !market.ready) {
     return (
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
@@ -58,72 +54,79 @@ export function MetricCards({
     );
   }
 
-  const isLong = stats.openGold >= 0;
+  const sma20 = market.sma20 || market.mazaneh || 1;
+  const distSma = sma20 > 0 ? (((market.mazaneh - sma20) / sma20) * 100) : 0;
+  const isAboveSma = distSma >= 0;
 
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      {/* 1. Mazaneh (17 Karat Gold) */}
       <Metric
-        label="موجودی طلای باز"
-        hint="موقعیت معاملاتی فعال شما؛ عدد مثبت نشان‌دهنده خرید (Long) و عدد منفی نشان‌دهنده فروش تعهدی/فردایی (Short) است."
-        accent={isLong ? "var(--gold)" : "var(--loss)"}
+        label="مظنه آبشده ۱۷ عیار (تهران)"
+        hint="نرخ رسمی مبادلات سبزه میدان تهران بر مبنای یک مثقال طلای ۱۷ عیار (۴.۳۳۱۸ گرم)."
+        accent="var(--gold)"
         sub={
           <>
-            نقطه سربه‌سر: <span className="num">{toman(stats.breakEven)}</span> تومان/گرم
+            فاصله تا میانگین ۲۰ روزه:{" "}
+            <span className={cn("num font-bold", isAboveSma ? "text-profit" : "text-loss")}>
+              {distSma >= 0 ? `+${distSma.toFixed(1)}%` : `${distSma.toFixed(1)}%`}
+            </span>
           </>
         }
       >
-        <span className={cn("num", isLong ? "text-gold-soft" : "text-loss")}>
-          {grams(stats.openGold)} گرم
-        </span>
-        <span className="mr-2 text-xs font-normal text-muted-foreground">
-          {isLong ? "LONG" : "SHORT"}
-        </span>
-      </Metric>
-
-      <Metric
-        label="سود محقق‌شده"
-        hint="سود قطعی بسته‌شده از معاملات فروش، محاسبه‌شده به روش میانگین موزون بهای تمام‌شده."
-        accent={stats.realized >= 0 ? "var(--profit)" : "var(--loss)"}
-        sub={
-          <>
-            آلفای طلا: <span className="num">{grams(stats.goldAlpha, 3)}</span> گرم طلا
-          </>
-        }
-      >
-        <span className={cn("num", stats.realized >= 0 ? "text-profit" : "text-loss")}>
-          {signedToman(stats.realized)}
+        <span className="num text-gold font-black">
+          {toman(market.mazaneh)} تومان
         </span>
       </Metric>
 
+      {/* 2. 18 Karat Gram */}
       <Metric
-        label="سود / زیان لحظه‌ای"
-        hint="سود یا زیان شناور پوزیشن باز فعلی بر اساس آخرین نرخ زنده بازار طلا."
-        accent={stats.unrealized >= 0 ? "var(--profit)" : "var(--loss)"}
+        label="هر گرم طلای ۱۸ عیار"
+        hint="نرخ پایه یک گرم طلای ۷۵۰ استاندارد، محاسبه‌شده با نسبت دقیق برابری ۴.۳۳۱۸."
+        accent="var(--profit)"
         sub={
           <>
-            گرم ۱۸ عیار: <span className="num">{toman(market.gram18)}</span> تومان
+            ارزش برابری به مظنه: <span className="num font-bold">۴.۳۳۱۸</span>
           </>
         }
       >
-        <TickValue
-          value={stats.unrealized}
-          format={signedToman}
-          className={stats.unrealized >= 0 ? "text-profit" : "text-loss"}
-        />
+        <span className="num text-profit font-black">
+          {toman(market.gram18)} تومان
+        </span>
       </Metric>
 
+      {/* 3. Global Ounce & USD */}
       <Metric
-        label="گردش مالی و بازدهی"
-        hint="شاخص بازدهی پورتفو به همراه مجموع گردش مالی کلیه معاملات خرید و فروش."
-        accent={stats.returnPct >= 0 ? "var(--profit)" : "var(--loss)"}
+        label="انس جهانی طلا (XAU/USD)"
+        hint="نرخ زنده طلای جهانی در بازارهای بین‌المللی نیویورک و لندن به همراه نرخ دلار آزاد تهران."
+        accent="var(--primary)"
         sub={
           <>
-            گردش مالی کل: <span className="num">{toman(stats.turnover)}</span> تومان
+            دلار آزاد تهران: <span className="num font-bold text-foreground">{toman(market.usd)} تومان</span>
           </>
         }
       >
-        <span className={cn("num", stats.returnPct >= 0 ? "text-profit" : "text-loss")}>
-          {pct(stats.returnPct)}
+        <span className="num text-primary font-black font-mono">
+          ${market.ounce ? market.ounce.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "4,476.6"}
+        </span>
+      </Metric>
+
+      {/* 4. Emami Coin & Bubble */}
+      <Metric
+        label="سکه تمام بهار آزادی (امامی)"
+        hint="نرخ سکه طرح جدید ضرب بانک مرکزی به همراه درصد و مبلغ حباب نسبت به ارزش طلای خالص مسکوک."
+        accent={market.coinHabab >= 0 ? "var(--warn)" : "var(--profit)"}
+        sub={
+          <>
+            حباب اسمی سکه:{" "}
+            <span className={cn("num font-bold", market.coinHabab >= 0 ? "text-warn" : "text-profit")}>
+              {pct(market.coinHabab)} ({toman(market.coinBubbleToman)} ت)
+            </span>
+          </>
+        }
+      >
+        <span className="num text-foreground font-black">
+          {toman(market.coin)} تومان
         </span>
       </Metric>
     </div>

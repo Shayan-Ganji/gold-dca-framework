@@ -8,6 +8,8 @@ services:
     restart: always
     environment:
       - TZ=Asia/Tehran
+    volumes:
+      - ./backend:/app
     networks:
       - showcase_net
 

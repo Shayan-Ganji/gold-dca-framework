@@ -42,16 +42,20 @@ export function TechnicalOverviewPanel({
   const bbLower = Math.round((market.mazaneh || 101_699_000) * 0.975);
   const rsiVal = market.rsi ?? 64.5;
 
-  const sups = market.srLevels?.supports_mesghal || [
-    Math.round(market.mazaneh * 0.99),
-    Math.round(market.mazaneh * 0.975),
-    Math.round(market.mazaneh * 0.95),
-  ];
-  const ress = market.srLevels?.resistances_mesghal || [
-    Math.round(market.mazaneh * 1.01),
-    Math.round(market.mazaneh * 1.025),
-    Math.round(market.mazaneh * 1.05),
-  ];
+  const sups = (market.supports && market.supports.length > 0)
+    ? market.supports
+    : (market.srLevels?.supports_mesghal || [
+        Math.round(market.mazaneh * 0.99),
+        Math.round(market.mazaneh * 0.975),
+        Math.round(market.mazaneh * 0.95),
+      ]);
+  const ress = (market.resistances && market.resistances.length > 0)
+    ? market.resistances
+    : (market.srLevels?.resistances_mesghal || [
+        Math.round(market.mazaneh * 1.01),
+        Math.round(market.mazaneh * 1.025),
+        Math.round(market.mazaneh * 1.05),
+      ]);
 
   return (
     <section className="rounded-2xl border border-gold/25 bg-gradient-to-br from-card/95 via-card/85 to-background p-5 shadow-xl space-y-4">

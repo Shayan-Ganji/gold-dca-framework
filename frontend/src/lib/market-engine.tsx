@@ -67,7 +67,11 @@ export type MarketSnapshot = {
   };
   entropyConfidence?: number;
   aiCouncil?: import("./api").AICouncilData;
-  topDrivers: Array<{ Feature: string; Importance: number }>;
+  topDrivers?: Array<{ Feature: string; Importance: number }>;
+  supports?: number[];
+  resistances?: number[];
+  srLevels?: { supports_mesghal?: number[]; resistances_mesghal?: number[] };
+  signal?: Signal;
   source?: string;
 };
 
@@ -238,6 +242,7 @@ export function MarketProvider({ children }: { children: ReactNode }) {
           trend10m: calcTrend(diff10m),
           supports,
           resistances,
+          srLevels: liveData.sr_levels,
           signal: signalAction,
           probabilities: {
             buy: Math.round((sigData.prob_buy || 0) * 100),
