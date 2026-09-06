@@ -2,17 +2,10 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
-  BellRing,
-  BookOpenCheck,
-  BrainCircuit,
-  CandlestickChart,
   LayoutDashboard,
   LogOut,
   PanelRightClose,
   PanelRightOpen,
-  Scale,
-  Settings2,
-  Wallet,
   Sparkles,
 } from "lucide-react";
 
@@ -23,15 +16,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/dashboard", label: "داشبورد", icon: LayoutDashboard },
-  { to: "/dca", label: "شبیه‌ساز DCA", icon: Sparkles },
-  { to: "/trades", label: "دفتر معاملات", icon: Scale },
-  { to: "/accounting", label: "حسابداری و تسویه", icon: Wallet },
-  { to: "/ledger", label: "دفتر کل پیشرفته", icon: BookOpenCheck },
-  { to: "/alerts", label: "آلارم‌های قیمتی", icon: BellRing },
-  { to: "/charts", label: "نمودارها و تکنیکال", icon: CandlestickChart },
-  { to: "/ai-evaluation", label: "ارزیابی هوش مصنوعی", icon: BrainCircuit },
-  { to: "/settings", label: "تنظیمات پروفایل", icon: Settings2 },
+  { to: "/dashboard", label: "داشبورد تحلیلی", icon: LayoutDashboard },
+  { to: "/dca", label: "استراتژی و شبیه‌ساز DCA", icon: Sparkles },
 ] as const;
 
 export function AppShell({

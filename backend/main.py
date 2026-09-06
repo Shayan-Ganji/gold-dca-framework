@@ -29,15 +29,32 @@ CSV_PATH = os.path.join(os.path.dirname(__file__), "gold_history.csv")
 # In-memory cache for live market quotes
 _LAST_QUOTE_TIME = 0
 _CACHED_QUOTE = {
-    "gold_rial": 234500000.0,
-    "mesghal_toman": 101580000.0,
-    "gram18_toman": 23450000.0,
-    "usd_toman": 100500.0,
-    "xau_usd": 5080.0,
-    "coin_toman": 118500000.0,
+    "gold_rial": 234787000.0,
+    "mesghal_toman": 101699000.0,
+    "gram18_toman": 23478700.0,
+    "usd_toman": 224910.0,
+    "xau_usd": 4476.6,
+    "coin_toman": 235010000.0,
     "polled_at": time.time(),
     "source": "شبکه مستقل کوانت طلا (TGJU & Global Direct)",
 }
+
+def parse_tgju_value(row_name: str, html_text: str) -> float | None:
+    # 1. Search text inside td.nf
+    m = re.search(r'data-market-row="' + row_name + r'".*?<td class="nf">([^<]+)</td>', html_text, re.DOTALL)
+    if m:
+        try:
+            return float(m.group(1).replace(",", "").strip())
+        except:
+            pass
+    # 2. Search data-price attribute
+    m2 = re.search(r'data-market-row="' + row_name + r'"[^>]*data-price="([^"]+)"', html_text)
+    if m2:
+        try:
+            return float(m2.group(1).replace(",", "").strip())
+        except:
+            pass
+    return None
 
 def fetch_live_market_data():
     global _LAST_QUOTE_TIME, _CACHED_QUOTE
@@ -58,52 +75,47 @@ def fetch_live_market_data():
     except Exception:
         pass
 
-    # 2. Fetch TGJU summary table
+    # 2. Fetch TGJU Homepage Table
     try:
         r2 = requests.get("https://www.tgju.org/", headers=headers, timeout=4)
         if r2.status_code == 200:
             html = r2.text
-            # Look for geram18 and mesghal
-            m_mesghal = re.search(r'data-market-row="mesghal"[^>]*data-price="([^"]+)"', html)
-            if m_mesghal:
-                raw_p = float(m_mesghal.group(1).replace(",", ""))
-                # If Rial (>20,000,000), convert to Toman
-                if raw_p > 200_000_000:
-                    q["mesghal_toman"] = raw_p / 10.0
-                elif raw_p > 20_000_000:
-                    q["mesghal_toman"] = raw_p
+            
+            # Mesghal
+            raw_m = parse_tgju_value("mesghal", html)
+            if raw_m and raw_m > 10_000_000:
+                q["mesghal_toman"] = raw_m / 10.0 if raw_m > 200_000_000 else raw_m
 
-            m_gram = re.search(r'data-market-row="geram18"[^>]*data-price="([^"]+)"', html)
-            if m_gram:
-                raw_g = float(m_gram.group(1).replace(",", ""))
-                if raw_g > 50_000_000:
-                    q["gram18_toman"] = raw_g / 10.0
-                elif raw_g > 5_000_000:
-                    q["gram18_toman"] = raw_g
+            # 18k Gram
+            raw_g = parse_tgju_value("geram18", html)
+            if raw_g and raw_g > 1_000_000:
+                q["gram18_toman"] = raw_g / 10.0 if raw_g > 50_000_000 else raw_g
 
-            m_usd = re.search(r'data-market-row="price_dollar_rl"[^>]*data-price="([^"]+)"', html)
-            if m_usd:
-                raw_u = float(m_usd.group(1).replace(",", ""))
-                if raw_u > 200_000:
-                    q["usd_toman"] = raw_u / 10.0
-                elif raw_u > 20_000:
-                    q["usd_toman"] = raw_u
+            # USD
+            raw_u = parse_tgju_value("price_dollar_rl", html)
+            if raw_u and raw_u > 50_000:
+                q["usd_toman"] = raw_u / 10.0 if raw_u > 500_000 else raw_u
 
-            m_coin = re.search(r'data-market-row="sekee"[^>]*data-price="([^"]+)"', html)
-            if m_coin:
-                raw_c = float(m_coin.group(1).replace(",", ""))
-                if raw_c > 200_000_000:
-                    q["coin_toman"] = raw_c / 10.0
-                elif raw_c > 20_000_000:
-                    q["coin_toman"] = raw_c
+            # Emami Coin
+            raw_c = parse_tgju_value("sekee", html)
+            if raw_c and raw_c > 10_000_000:
+                q["coin_toman"] = raw_c / 10.0 if raw_c > 500_000_000 else raw_c
     except Exception:
         pass
 
-    # Synchronize 18k gram and mesghal if one was missing
+    # 3. Synchronize 18k Gram and Mesghal if one was missing
     if q["mesghal_toman"] > 0 and (q["gram18_toman"] == 0 or abs(q["mesghal_toman"] - q["gram18_toman"] * 4.3318) > 2_000_000):
         q["gram18_toman"] = round(q["mesghal_toman"] / 4.3318)
     elif q["gram18_toman"] > 0 and q["mesghal_toman"] == 0:
         q["mesghal_toman"] = round(q["gram18_toman"] * 4.3318)
+
+    # 4. Strict Market Sanity Shield for Coin
+    # Emami coin (8.133g 22k) is always between 2.20x to 2.45x mesghal price (approx 230M-240M Toman)
+    # Never allow an outdated 118M figure to pass through
+    if q["coin_toman"] < q["mesghal_toman"] * 1.8:
+        # Calculate from real physical parity: (xau * usd * 0.900 * 8.133) / 31.1035 + 100,000
+        calc_coin = ((q["xau_usd"] * q["usd_toman"] * 0.900 * 8.133) / 31.1035) + 100000
+        q["coin_toman"] = round(calc_coin * 0.99) # around 235M
 
     q["gold_rial"] = q["gram18_toman"] * 10.0
     q["polled_at"] = now

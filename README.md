@@ -1,115 +1,257 @@
-# پلتفرم شبیه‌ساز انباشت سیستماتیک طلا (Dynamic Gold DCA Framework)
-
-> **نسخه پژوهشی و اثبات مفهوم (Research & Proof-of-Concept Demo)**  
-> این مخزن شامل پیاده‌سازی متدولوژی پایه‌ای انباشت دارایی بر مبنای میانگین‌سازی هزینه (Dollar-Cost Averaging) در شرایط تورم ساختاری و نوسانات بازار فیزیکی طلا است.
+# 🪙 Dynamic Gold DCA Framework & Quantitative Asset Allocation Platform
+### سامانه مدیریت کمّی دارایی و چارچوب انباشت سیستماتیک طلا
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Shayan-Ganji/gold-dca-framework)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Germany%20Server-brightgreen)](http://204.11.2.236:8501)
 [![Telegram Bot](https://img.shields.io/badge/Telegram%20Bot-%40TalaOracle__Bot-blue)](https://t.me/TalaOracle_Bot)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![React](https://img.shields.io/badge/Frontend-React%2019%20%7C%20Tailwind-61DAFB?logo=react)](https://react.dev/)
 [![Docker](https://img.shields.io/badge/Deployment-Docker%20Compose-2496ED.svg)](https://www.docker.com/)
 
 ---
 
-## 📌 یادداشت مهم و بیانیه محرمانگی تجاری (Confidentiality Notice)
+<div align="center">
 
-کدبیس و داشبورد حاضر، **صرفاً یک نسخه نمایشی (MVP / Demonstration)** از ایده پژوهشی انباشت بلندمدت طلا است.  
-**پلتفرم عملیاتی اصلی (Production Trading & Financial Accounting Platform)** که به صورت خصوصی (Private) توسعه یافته و میزبانی می‌شود، شامل ویژگی‌های اختصاصی زیر بوده و به دلایل حفاظت از مالکیت فکری در دسترس عمومی قرار ندارد:
+### 🌐 انتخاب زبان / Select Language
 
-- اتوماسیون جریان سفارشات زنده و تطبیق مظنه‌های بنکداری نقدی
-- موتور اختصاصی ارزش‌گذاری و محاسبات بلادرنگ انحراف ارزش
-- سیستم حسابداری دوبل (Double-Entry Ledger) و تسویه حساب طرف‌های تجاری
-- موتور کنترل ریسک چندلایه‌ای و حد ضرر متحرک (Trailing Stop-Loss)
-- زیرساخت پایش بلادرنگ و هشداردهی اختصاصی
+<a href="#-بخش-اول-مستندات-جامع-به-زبان-فارسی">
+  <img src="https://img.shields.io/badge/🇮🇷%20مطالعه%20به%20زبان%20فارسی-Persian%20Docs-FFD700?style=for-the-badge&logoColor=black" alt="Persian">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#-section-2-complete-english-documentation">
+  <img src="https://img.shields.io/badge/🇬🇧%20Read%20in%20English-English%20Docs-00E676?style=for-the-badge&logoColor=black" alt="English">
+</a>
 
----
-
-## 💡 مسئله پژوهشی: انباشت طلا در محیط‌های تورمی
-
-در اقتصادهای با تورم ساختاری، نگهداری نقدینگی ریالی با کاهش شدید قدرت خرید همراه است. از سوی دیگر، ورود یکباره به بازار در پیک‌های قیمتی یا خرید با فواصل زمانی ثابت بدون توجه به حباب‌های موضعی، ریسک کاهش ارزش سبد در اصلاح‌های بازار را افزایش می‌دهد.
-
-این پژوهش متدولوژی **انباشت پویا (Dynamic Value-Aware DCA)** را مدل‌سازی می‌کند:
-1. **تخصیص متغیر بودجه:** کاهش سهم خرید در فازهای رشد نامتعارف (حباب قیمتی) و ذخیره‌سازی نقدینگی در صندوق احتیاط.
-2. **تزریق نقدینگی در تخفیف‌ها:** افزایش سهم خرید در اصلاح‌های تکنیکال جهت کاهش بهای تمام‌شده موزون (WAC).
-3. **کاهش حداکثر افت سرمایه (Drawdown Reduction):** ایجاد یک حاشیه امنیت (Margin of Safety) پایدار در مقایسه با خرید یکجا (Lump Sum) یا انباشت کور با فواصل ثابت.
+<p><em>(جهت جابه‌جایی سریع میان زبان‌ها روی دکمه‌های بالا کلیک کنید / Click the buttons above to switch languages)</em></p>
 
 ---
 
-## 🏗️ معماری کلی سامانه عملیاتی (High-Level Architecture)
+</div>
+
+<br/>
+
+---
+
+# 🇮🇷 بخش اول: مستندات جامع به زبان فارسی
+
+[English Version 🇬🇧](#-section-2-complete-english-documentation) | [بازگشت به بالا ⬆️](#dynamic-gold-dca-framework--quantitative-asset-allocation-platform)
+
+---
+
+## 📌 ۱. بیانیه محرمانگی تجاری و تفاوت نسخه دمو با پلتفرم عملیاتی
+
+کدبیس و داشبورد موجود در این مخزن، **صرفاً یک نسخه نمایشی و اثبات مفهوم (Proof-of-Concept / Showcase Demo)** از مدل انباشت سیستماتیک طلا است.  
+
+> [!IMPORTANT]
+> **پلتفرم عملیاتی اصلی (Production Trading & Financial Accounting Engine)** که به‌صورت خصوصی (Private) توسعه یافته و میزبانی می‌شود، شامل امکانات زیرساختی زیر بوده و به دلایل صیانت از مالکیت فکری و امنیت سرمایه، در دسترس عمومی قرار ندارد:
+> - **پایش ۶۰ متغیر کمّی و کلان:** نرخ‌های برابری، سرعت گردش نقدینگی، شکاف‌های حباب و تکانه‌های بین‌بازاری به‌صورت ساب‌سکند (Sub-Second).
+> - **موتورهای اختصاصی پیش‌بینی و سوپرسایکل:** مدل‌های یادگیری ماشین تلفیقی (Dual-Horizon Ensemble)، فیلترهای گیت‌شده نوسان‌سنج و رادارهای خروج هوشمند.
+> - **سیستم حسابداری دوبل پیشرفته (Double-Entry Ledger):** تسویه بلادرنگ با بنکداری‌های سبزه میدان، تهاتر طلا و ریال، حسابداری کارمزدها و ثبت اسناد انبار/وثیقه.
+> - **کنترل ریسک چندلایه‌ای:** تریلینگ‌استاپ سه‌مرحله‌ای (Trailing Stop-Loss)، چاندلیر پارابولیک و اهداف ذخیره سود پلکانی.
+> - **داده‌ها و لاگ‌های ترید واقعی:** تمامی سوابق معاملاتی، لاگ‌ها و دیتابیس‌های حقیقی در محیط خصوصی محافظت می‌شوند و این دمو صرفاً با داده‌های سنتتیک و عمومی عمل می‌کند.
+
+---
+
+## 💡 ۲. مسئله پژوهشی: انباشت طلا در اقتصادهای تورمی
+
+در شرایط تورم ساختاری و افت ارزش پول فیات، نگهداری ریال موجب فرسایش شدید دارایی می‌شود. با این حال، خرید یکباره (Lump Sum) در سقف‌های قیمتی نیز به دلیل ماهیت نوسانی بازار و جهش‌های غیرخطی طلا، ریسک افت موقت سرمایه (Drawdown) سنگینی به همراه دارد.
+
+این چارچوب، استراتژی **انباشت پویا بر پایه ارزش (Dynamic Value-Aware DCA)** را مدل‌سازی می‌کند:
+1. **تزریق نقدینگی در تخفیف‌های تاریخی:** خرید پرحجم‌تر طلا در زمان‌هایی که قیمت زیر ارزش ذاتی منصفانه یا در اصلاح‌های تکنیکال قرار دارد.
+2. **کاهش خرید در فازهای حباب مثبت:** ذخیره نقدینگی در زمان کشیدگی غیرعادی قیمت نسبت به ارزش برابری انس و دلار.
+3. **پدیده درو نوسان (Volatility Harvesting):** ایجاد حاشیه امنیت پایدار (Margin of Safety) و کاهش بهای تمام‌شده موزون به ازای هر گرم نسبت به قیمت روز بازار.
+
+---
+
+## 📐 ۳. متدولوژی محاسباتی و فرمول‌های ریاضی
+
+### ۱. میانگین وزنی بهای تمام‌شده (Weighted Average Cost - WAC):
+$$ar{P} = \frac{\sum_{i=1}^n P_i \cdot Q_i}{\sum_{i=1}^n Q_i} = \frac{C_{\text{total}}}{\sum_{i=1}^n \frac{C_i}{P_i}}$$
+که در آن $P_i$ قیمت هر گرم در پله $i$ام، $Q_i$ وزن طلای خریداری‌شده و $C_i$ سرمایه ریالی تخصیص‌یافته است.
+
+### ۲. برابری ارزش ذاتی مظنه آبشده (Intrinsic Mazaneh):
+$$\text{Mazaneh}_{\text{intrinsic}} = \frac{\text{XAU (USD/oz)} \times \text{USD/IRR}}{9.5742}$$
+$$\text{Bubble}\% = \left( \frac{\text{Mazaneh}_{\text{market}}}{\text{Mazaneh}_{\text{intrinsic}}} - 1 \right) \times 100$$
+
+### ۳. ارزش ذاتی سکه بهار آزادی و امامی:
+$$\text{Coin}_{\text{intrinsic}} = \frac{\text{XAU} \times \text{USD} \times 0.900 \times 8.133}{31.1035} + \text{Zarb}$$
+
+---
+
+## 🏗️ ۴. معماری سامانه عملیاتی (System Architecture)
 
 ```mermaid
 graph TD
-    A[لایه ۱: جریان‌های داده چندارزی] --> B[لایه ۲: موتور محاسبات تحلیلی و برابری]
-    B --> C[لایه ۳: موتور مدیریت ریسک و سرمایه]
-    C --> D[لایه ۴: سیستم حسابداری دوبل و دفتر کل]
-    D --> E[لایه ۵: درگاه‌های ارتباطی و ربات تلگرام]
+    subgraph لایه دریافت داده
+        A1[مظنه آبشده سبزه میدان] --> A[پایپ‌لاین تجمیع و فیلتر داده]
+        A2[انس جهانی طلا XAU] --> A
+        A3[دلار بازار آزاد و تتر] --> A
+        A4[سکه امامی و بهار آزادی] --> A
+    end
+
+    subgraph هسته تحلیلی و کنترل ریسک
+        A --> B[موتور برابری ذاتی و حباب‌سنجی]
+        B --> C[موتور انباشت DCA و تخصیص پویا]
+        C --> D[تریلینگ‌استاپ چاندلیر و کنترل ریسک]
+    end
+
+    subgraph هسته حسابداری و خروجی
+        D --> E[دفتر کل دوبل و ثبت معاملات]
+        E --> F1[داشبورد تحلیلی React 19]
+        E --> F2[ربات رسمی تلگرام @TalaOracle_Bot]
+    end
 ```
 
-1. **لایه دریافت داده (Data Ingestion):**  
-   پایش پیوسته مظنه آبشده بازار تهران، سکه بهار آزادی/امامی، نرخ انس جهانی طلا (XAU/USD) و دلار/تتر بازار آزاد همراه با فیلتر داده‌های پرت و همگام‌سازی لحظه‌ای.
-2. **لایه تحلیل و برابری ارزش (Analytical Engine):**  
-   محاسبه لحظه‌ای ارزش ذاتی مظنه، استخراج حباب اسمی/درصدی مسکوکات و ارزیابی رژیم‌های نوسان.
-3. **لایه مدیریت ریسک (Risk Controls):**  
-   تنظیم خودکار حد ضرر متحرک بر مبنای دامنه نوسان، تعیین اهداف ذخیره سود پله‌ای و پایش سقف تعهدات نقدینگی.
-4. **لایه حسابداری دوبل و مدیریت پوزیشن (Financial Ledger):**  
-   ثبت فاکتورهای بنکداری، تهاتر مطالبات، ثبت اسناد انبار/وثایق، رهگیری بهای تمام‌شده هر گرم و نقطه سر‌به‌سر.
-5. **لایه ارتباطی و ربات تلگرام (Multi-Tier Gateway):**  
-   ارائه خدمات چندسطحی (کاربر عادی، شرکای سرمایه‌گذار، و کاربران ویژه با احراز هویت رمزنگاری‌شده).
+---
+
+## 🤝 ۵. مدل شراکت و استخر سرمایه‌گذاری (Investment Partnership Pool)
+
+پلتفرم عملیاتی از ساختار حسابداری تفکیکی برای سرمایه‌گذاران حقیقی و حقوقی پشتیبانی می‌کند:
+- **تسهیم به نسبت سرمایه (Pro-Rata Attribution):** محاسبه دوره‌ای سود و زیان دقیقاً بر اساس مانده سرمایه در گردش هر شریک.
+- **شفافیت گزارش‌دهی:** ارسال خودکار صورت‌وضعیت دارایی، بهای تمام‌شده موزون، طلاهای موجود در انبار/وثیقه و ارزش روز پرتفوی.
+- **ثبت درخواست مشارکت:** علاقه‌مندان به همکاری می‌توانند از طریق ربات تلگرام [@TalaOracle_Bot](https://t.me/TalaOracle_Bot) و بخش «شرکای سرمایه‌گذار» با تیم مدیریت در ارتباط باشند.
 
 ---
 
-## 🤝 مدل شراکت و استخر سرمایه‌گذاری (Investment Partnership Pool)
+## 👥 ۶. اعضای تیم و تفکیک مسئولیت‌ها
 
-پلتفرم عملیاتی از ساختار تجمیع سرمایه جهت مشارکت سرمایه‌گذاران همراه با الزامات شفافیت مالی پشتیبانی می‌کند:
-
-- **تسهیم بر مبنای سهم واقعی (Pro-Rata Attribution):** محاسبه سود و زیان دوره‌ای دقیقا بر پایه نسبت سرمایه اولیه هر شریک به کل سرمایه در گردش پوزیشن‌ها.
-- **حسابداری تفکیکی:** ارائه گزارش‌های ادواری از سود محقق‌شده، سود تحقق‌نیافته و ارزش اسمی کل سبد.
-- **پنل تلگرامی شرکا:** امکان استعلام لحظه‌ای مانده‌ها، سهم سود و وضعیت معاملات جاری بدون دسترسی به تنظیمات اجرایی.
-- **ثبت درخواست:** علاقه‌مندان به مشارکت می‌توانند از طریق ربات تلگرام [@TalaOracle_Bot](https://t.me/TalaOracle_Bot) و بخش «شرکای سرمایه‌گذار» فرم مربوطه را ارسال فرمایند.
-
----
-
-## 👥 معرفی تیم و تفکیک مسئولیت‌ها (Team & Roles)
-
-این پروژه حاصل همکاری تخصصی در دو حوزه فنی و محصولی است:
-
-### 🔹 توسعه‌دهنده هسته فنی و معمار سیستم (Lead Engineer & Systems Architect) - شایان گنجی
-- **طراحی مدل‌های کمّی و الگوریتم‌های محاسباتی:** پیاده‌سازی شبیه‌ساز انباشت، مدل‌های توازن ارزش، و محاسبات آماری نوسان.
-- **توسعه بک‌اند و وب‌سرویس‌ها:** طراحی و پیاده‌سازی APIهای REST با FastAPI و مدیریت پایگاه داده رابطه‌ای.
-- **طراحی سیستم حسابداری و دفتر کل:** مهندسی دفتر کل دوبل، منطق تسویه حساب، ثبت تهاترها و محاسبات میانگین موزون بهای تمام‌شده.
-- **پایپ‌لاین‌های تجمیع داده:** مهندسی جریان داده‌های چندارزی بلادرنگ و مکانیزم‌های بازیابی خطا.
-- **سامانه‌های کنترل ریسک و اتوماسیون:** طراحی حد ضرر متحرک، تریگرهای اتوماتیک و هشدارهای سرور.
-- **زیرساخت سرور و استقرار ابری:** مدیریت سرورهای عملیاتی (Docker, Nginx, Linux, Systemd).
-
-### 🔹 طراحی اولیه فرانت‌اند و ایده‌پردازی محصول (Frontend Prototyping & Ideation) - هادی گلی (Hadi Goli)
-- **پیاده‌سازی ساختار اولیه رابط کاربری:** نمونه‌سازی و طراحی چیدمان اولیه داشبورد کاربری.
-- **طراحی بصری و المان‌های رابط کاربری:** تعریف تم ظاهری و هماهنگی ویژوال کامپوننت‌ها.
-- **ایده‌پردازی نیازمندی‌های محصولی:** ارائه تجربیات تجاری بازار فیزیکی طلا، تعریف سناریوهای کاربردی و استخراج نیازهای تعامل با سرمایه‌گذاران.
+* **شایان گنجی (Lead Engineer & Systems Architect):**
+  - طراحی مدل‌های کمّی، الگوریتم‌های محاسباتی DCA، برابری دارایی‌ها و ریاضیات انباشت.
+  - توسعه کامل معماری بک‌اند (FastAPI)، وب‌سرویس‌ها، جریان داده‌های چندارزی و سیستم‌های کنترل ریسک.
+  - مهندسی سیستم حسابداری دوبل و تسویه حساب طرف‌های تجاری.
+  - استقرار ابری سرورها، خطوط CI/CD و زیرساخت داکر.
+* **هادی گلی (UI Prototyping & Product Ideation):**
+  - نمونه‌سازی اولیه صفحات و طراحی ویژوال کامپوننت‌های رابط کاربری.
+  - ایده‌پردازی تجاری، استخراج نیازهای عملیاتی بازار فیزیکی طلا و الزامات تعامل با سرمایه‌گذاران.
 
 ---
 
-## 🚀 نحوه اجرای نسخه دمو (Run Demo Locally)
-
-این داشبورد دمو کاملاً مستقل بوده و به هیچ داده محرمانه‌ای وابسته نیست:
+## 🚀 ۷. اجرای محلی نسخه دمو
 
 ```bash
-# کلون کردن مخزن دمو
+# ۱. کلون کردن مخزن
 git clone https://github.com/Shayan-Ganji/gold-dca-framework.git
 cd gold-dca-framework
 
-# اجرا با داکر کامپوز
-docker compose up -d --build
-
-# اجرا با داکر کامپوز (معماری مدرن React 19 + FastAPI + Nginx)
+# ۲. اجرای کامل استک با داکر کامپوز (React 19 + FastAPI + Nginx)
 docker compose up -d --build
 ```
+داشبورد روی پورت `http://localhost:8501` بالا خواهد آمد.
 
-پس از اجرا، داشبورد در آدرس `http://localhost:8501` در دسترس خواهد بود.
+<br/>
 
 ---
 
-## 🌐 لینک‌های دسترسی (Live Links)
+# 🇬🇧 Section 2: Complete English Documentation
 
-- **مخزن رسمی گیت‌هاب دمو:** [https://github.com/Shayan-Ganji/gold-dca-framework](https://github.com/Shayan-Ganji/gold-dca-framework)
-- **شبیه‌ساز زنده انباشت (Germany Host):** [http://204.11.2.236:8501](http://204.11.2.236:8501)
-- **ربات رسمی پایش و اعلان تلگرام:** [@TalaOracle_Bot](https://t.me/TalaOracle_Bot)
+[Persian Version 🇮🇷](#-بخش-اول-مستندات-جامع-به-زبان-فارسی) | [Back to Top ⬆️](#dynamic-gold-dca-framework--quantitative-asset-allocation-platform)
+
+---
+
+## 📌 1. Confidentiality Notice & Demo Scope
+
+The codebase and interface provided in this repository serve strictly as a **Proof of Concept (PoC) and Showcase Demo** for the systematic gold accumulation framework.
+
+> [!IMPORTANT]
+> **The Proprietary Production Platform** is privately operated and maintained. To safeguard intellectual property, sensitive business logic, and capital management mechanisms, the following core features are intentionally omitted from this public demo:
+> - **Sub-Second 60+ Variable Macro Telemetry:** Real-time cross-asset parity, velocity spreads, and cross-market momentum.
+> - **Dual-Horizon Ensemble Predictive Models:** Proprietary hybrid models, market regime switches, and squeeze indicators.
+> - **Institutional Double-Entry Ledger:** Settlement matching with bullion dealers, physical vault tracking, and collateral accounting.
+> - **Three-Stage Trailing Risk Management:** Chandelier parabolic stops, volatility-adjusted protective boundaries, and tiered profit preservation.
+> - **Real Trade Records & Accounts:** All live trading databases (`portfolio.db`) and account balances remain secured in the production environment.
+
+---
+
+## 💡 2. The Economic Thesis: Systematic Gold DCA in Inflationary Environments
+
+In structural inflation regimes with persistent fiat currency depreciation, holding cash yields continuous loss of purchasing power. Conversely, all-at-once (Lump Sum) allocation during local market euphoria carries extreme drawdown risk due to high volatility and non-linear market shocks.
+
+This research formulates a **Dynamic Value-Aware Dollar-Cost Averaging (DCA)** methodology:
+1. **Value-Driven Scaling:** Increasing allocation weight when gold trades at an intrinsic discount or during statistical pullbacks.
+2. **Bubble-Aware Liquidity Preservation:** Tapering purchases and accumulating reserve liquidity when local prices detach from fundamental global parity.
+3. **Volatility Harvesting (Shannon's Demon Effect):** Achieving a lower Weighted Average Cost (WAC) per gram than the spot market price, creating a structural margin of safety.
+
+---
+
+## 📐 3. Quantitative Formulations
+
+### 1. Weighted Average Cost (WAC):
+$$\bar{P} = \frac{\sum_{i=1}^n P_i \cdot Q_i}{\sum_{i=1}^n Q_i} = \frac{C_{\text{total}}}{\sum_{i=1}^n \frac{C_i}{P_i}}$$
+Where $P_i$ denotes spot price at tranche $i$, $Q_i$ denotes accumulated grams, and $C_i$ is fiat capital allocated.
+
+### 2. Intrinsic Mazaneh Parity:
+$$\text{Mazaneh}_{\text{intrinsic}} = \frac{\text{XAU (USD/oz)} \times \text{USD/IRR}}{9.5742}$$
+$$\text{Bubble}\% = \left( \frac{\text{Mazaneh}_{\text{market}}}{\text{Mazaneh}_{\text{intrinsic}}} - 1 \right) \times 100$$
+
+### 3. Emami Gold Coin Fair Parity:
+$$\text{Coin}_{\text{intrinsic}} = \frac{\text{XAU} \times \text{USD} \times 0.900 \times 8.133}{31.1035} + \text{Seigniorage}$$
+
+---
+
+## 🏗️ 4. System Architecture
+
+```mermaid
+graph TD
+    subgraph Data Ingestion
+        A1[Tehran Bullion Spot Feed] --> A[Data Pipeline & Validation]
+        A2[Global Gold Spot XAU/USD] --> A
+        A3[Free Market USD & USDT] --> A
+        A4[Emami & Bahar Coin Quotes] --> A
+    end
+
+    subgraph Analytical Core & Risk
+        A --> B[Intrinsic Parity & Bubble Monitor]
+        B --> C[Dynamic DCA Allocation Engine]
+        C --> D[Chandelier Stop & Risk Guard]
+    end
+
+    subgraph Ledger & Interfaces
+        D --> E[Double-Entry Financial Ledger]
+        E --> F1[React 19 Frontend Dashboard]
+        E --> F2[Official Telegram Bot @TalaOracle_Bot]
+    end
+```
+
+---
+
+## 🤝 5. Investment Partnership Pool
+
+The production engine incorporates an institutional pooling framework designed for high-net-worth individuals and corporate partners:
+- **Pro-Rata Attribution:** Profit and loss distribution strictly proportional to initial capital contributions.
+- **Dedicated Partner Telemetry:** Real-time visibility into unrealized PnL, physical bullion inventory, and audited ledger statements.
+- **Partner Access:** Prospective investors can initiate partner registration via the official Telegram bot [@TalaOracle_Bot](https://t.me/TalaOracle_Bot).
+
+---
+
+## 👥 6. Team & Key Roles
+
+* **Shayan Ganji (Lead Engineer & Systems Architect):**
+  - Quantitative modeling, DCA accumulation formulas, and cross-asset parity engines.
+  - End-to-end backend architecture (FastAPI), real-time financial pipelines, and risk control infrastructure.
+  - Design and development of the double-entry accounting ledger.
+  - Server administration, CI/CD, and Docker container orchestration.
+* **Hadi Goli (UI Prototyping & Product Ideation):**
+  - Initial user interface layouts and visual component prototyping.
+  - Product requirements definition and commercial domain expertise in physical gold trading.
+
+---
+
+## 🚀 7. Local Deployment
+
+```bash
+# 1. Clone repository
+git clone https://github.com/Shayan-Ganji/gold-dca-framework.git
+cd gold-dca-framework
+
+# 2. Launch full-stack stack with Docker Compose (React 19 + FastAPI + Nginx)
+docker compose up -d --build
+```
+Access the application at `http://localhost:8501`.
+
+---
+
+## 🌐 Official Access Links
+
+* **Live Interactive Demo:** [http://204.11.2.236:8501](http://204.11.2.236:8501)
+* **GitHub Repository:** [https://github.com/Shayan-Ganji/gold-dca-framework](https://github.com/Shayan-Ganji/gold-dca-framework)
+* **Telegram Bot:** [@TalaOracle_Bot](https://t.me/TalaOracle_Bot)
