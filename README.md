@@ -100,9 +100,8 @@ cd gold-dca-framework
 # اجرا با داکر کامپوز
 docker compose up -d --build
 
-# یا اجرای مستقیم با پایتون
-pip install -r requirements.txt
-streamlit run app.py
+# اجرا با داکر کامپوز (معماری مدرن React 19 + FastAPI + Nginx)
+docker compose up -d --build
 ```
 
 پس از اجرا، داشبورد در آدرس `http://localhost:8501` در دسترس خواهد بود.

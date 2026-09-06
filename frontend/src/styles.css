@@ -1,0 +1,185 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system: "Gold Desk" — a strict dark-mode, RTL Persian FinTech
+ * trading terminal. Deep blue-black surfaces, gold accents, hard green/red
+ * PnL semantics. There is no light theme; :root IS the dark theme.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-profit: var(--profit);
+  --color-loss: var(--loss);
+  --color-neutral: var(--neutral);
+  --color-warn: var(--warn);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --font-sans: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.163 0.023 279);
+  --foreground: oklch(0.955 0.008 265);
+  --card: oklch(0.199 0.032 278);
+  --card-foreground: oklch(0.955 0.008 265);
+  --popover: oklch(0.199 0.032 278);
+  --popover-foreground: oklch(0.955 0.008 265);
+  --primary: oklch(0.792 0.139 85.5);
+  --primary-foreground: oklch(0.17 0.03 278);
+  --secondary: oklch(0.262 0.034 277);
+  --secondary-foreground: oklch(0.955 0.008 265);
+  --muted: oklch(0.252 0.03 277);
+  --muted-foreground: oklch(0.687 0.028 268);
+  --accent: oklch(0.288 0.041 277);
+  --accent-foreground: oklch(0.955 0.008 265);
+  --destructive: oklch(0.63 0.204 25.5);
+  --destructive-foreground: oklch(0.98 0.005 265);
+  --border: oklch(0.792 0.139 85.5 / 14%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.792 0.139 85.5 / 55%);
+
+  --gold: oklch(0.792 0.139 85.5);
+  --gold-soft: oklch(0.86 0.098 88);
+  --gold-foreground: oklch(0.17 0.03 278);
+  --profit: oklch(0.766 0.166 158);
+  --loss: oklch(0.653 0.2 22);
+  --neutral: oklch(0.7 0.07 245);
+  --warn: oklch(0.78 0.15 62);
+  --glass: oklch(0.22 0.035 278 / 62%);
+  --glass-border: oklch(0.792 0.139 85.5 / 18%);
+
+  --chart-1: oklch(0.792 0.139 85.5);
+  --chart-2: oklch(0.766 0.166 158);
+  --chart-3: oklch(0.653 0.2 22);
+  --chart-4: oklch(0.7 0.07 245);
+  --chart-5: oklch(0.78 0.15 62);
+  --sidebar: oklch(0.183 0.029 278);
+  --sidebar-foreground: oklch(0.93 0.01 265);
+  --sidebar-primary: oklch(0.792 0.139 85.5);
+  --sidebar-primary-foreground: oklch(0.17 0.03 278);
+  --sidebar-accent: oklch(0.262 0.034 277);
+  --sidebar-accent-foreground: oklch(0.955 0.008 265);
+  --sidebar-border: oklch(0.792 0.139 85.5 / 12%);
+  --sidebar-ring: oklch(0.792 0.139 85.5 / 45%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    background-image:
+      radial-gradient(90rem 50rem at 85% -10%, oklch(0.792 0.139 85.5 / 8%), transparent 60%),
+      radial-gradient(70rem 45rem at 5% 0%, oklch(0.45 0.13 275 / 18%), transparent 65%);
+    background-attachment: fixed;
+    color: var(--color-foreground);
+    font-feature-settings: "ss02";
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+@utility glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid var(--glass-border);
+}
+
+@utility metric-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid var(--glass-border);
+  border-right: 3px solid var(--gold);
+  padding: 1rem 1.15rem;
+}
+
+@utility tick-up {
+  animation: tick-flash-up 0.7s ease-out;
+}
+
+@utility tick-down {
+  animation: tick-flash-down 0.7s ease-out;
+}
+
+@keyframes tick-flash-up {
+  0% {
+    background-color: oklch(0.766 0.166 158 / 28%);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes tick-flash-down {
+  0% {
+    background-color: oklch(0.653 0.2 22 / 28%);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
