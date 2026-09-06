@@ -62,8 +62,8 @@ export function MetricCards({
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {/* 1. Mazaneh (17 Karat Gold) */}
       <Metric
-        label="مظنه آبشده ۱۷ عیار (تهران)"
-        hint="نرخ رسمی مبادلات سبزه میدان تهران بر مبنای یک مثقال طلای ۱۷ عیار (۴.۳۳۱۸ گرم)."
+        label="مظنه آبشده ۱۷ عیار"
+        hint="نرخ مبادلات طلای آبشده بر مبنای یک مثقال طلای ۱۷ عیار (۴.۳۳۱۸ گرم) استخراج‌شده از پایگاه‌های مرجع بازار (TGJU و tala.live)."
         accent="var(--gold)"
         sub={
           <>

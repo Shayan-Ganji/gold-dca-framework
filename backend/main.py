@@ -313,7 +313,7 @@ def get_live_prices():
         "coin_mazaneh_ratio": coin_mazaneh_ratio,
         "market_status": {
             "is_open": True,
-            "reason": "بازار رسمی و مبادلات سبزه میدان فعال است",
+            "reason": "بازار رسمی معاملات طلا فعال است",
             "shamsi_now": now_str,
             "color": "emerald",
             "icon": "check"
@@ -689,9 +689,9 @@ def get_allocation():
 @app.get("/api/charts/counterparty/volume")
 def get_counterparty_volume():
     return [
-        {"counterparty": "بنکداری و آبشده سبزه میدان", "volume_grams": 480.0},
-        {"counterparty": "اتحادیه طلا و جواهر تهران", "volume_grams": 350.0},
-        {"counterparty": "صندوق‌های سرمایه‌گذاری طلای بورس کالا", "volume_grams": 250.0},
+        {"counterparty": "معاملات فیزیکی آبشده", "volume_grams": 480.0},
+        {"counterparty": "مسکوکات استاندارد طلا", "volume_grams": 350.0},
+        {"counterparty": "صندوق‌های طلای بورس کالا", "volume_grams": 250.0},
     ]
 
 @app.get("/api/ledger/summary")

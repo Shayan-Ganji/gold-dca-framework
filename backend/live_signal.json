@@ -29,7 +29,7 @@
       },
       {
         "id": "tactical_2d",
-        "title_fa": "سویینگ ۲ روزه (هسته XGBoost)",
+        "title_fa": "سویینگ ۲ روزه (تحلیل آماری)",
         "status_fa": "خرید قوی (Strong Buy)",
         "tone": "profit",
         "score": 50

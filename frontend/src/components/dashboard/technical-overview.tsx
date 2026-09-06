@@ -8,6 +8,8 @@ import {
   Sparkles,
   Compass,
   Gauge,
+  Target,
+  Sliders,
 } from "lucide-react";
 
 import type { MarketSnapshot } from "@/lib/market-engine";
@@ -56,6 +58,30 @@ export function TechnicalOverviewPanel({
         Math.round(market.mazaneh * 1.025),
         Math.round(market.mazaneh * 1.05),
       ]);
+  const mazaneh = market.mazaneh || 101_453_000;
+  const s1 = sups[0] || Math.round(mazaneh * 0.995);
+  const r1 = ress[0] || Math.round(mazaneh * 1.005);
+
+  const channelSpan = Math.max(1, r1 - s1);
+  const posPct = Math.max(4, Math.min(96, ((mazaneh - s1) / channelSpan) * 100));
+
+  const distToSupPct = mazaneh > 0 ? (((mazaneh - s1) / mazaneh) * 100) : 0;
+  const distToResPct = mazaneh > 0 ? (((r1 - mazaneh) / mazaneh) * 100) : 0;
+
+  const pivotPoint = Math.round((s1 + r1 + mazaneh) / 3);
+
+  let zoneLabel = "ناحیه تعادلی (Mid Channel)";
+  let zoneTone = "text-primary";
+  let dcaAction = "انباشت پله‌ای نرمال";
+  if (posPct <= 35) {
+    zoneLabel = "منطقه حمایتی کف (Accumulation Cushion)";
+    zoneTone = "text-profit";
+    dcaAction = "تثبیت در کف / مناسب پله‌های خرید DCA";
+  } else if (posPct >= 65) {
+    zoneLabel = "منطقه مقاومت سقف (Resistance Test)";
+    zoneTone = "text-loss";
+    dcaAction = "احتیاط / انتظار اصلاح یا شکست سقف";
+  }
 
   return (
     <section className="rounded-2xl border border-gold/25 bg-gradient-to-br from-card/95 via-card/85 to-background p-5 shadow-xl space-y-4">
@@ -215,6 +241,87 @@ export function TechnicalOverviewPanel({
               {toman(r)}
             </span>
           ))}
+        </div>
+      </div>
+
+      {/* Dynamic Intraday Channel Position & Technical Execution Matrix */}
+      <div className="rounded-xl border border-border/70 bg-background/50 p-3.5 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span className="font-bold text-foreground flex items-center gap-1.5">
+            <Target className="size-4 text-gold" />
+            موقعیت تکنیکال مظنه میان نزدیک‌ترین حمایت (S₁) و مقاومت (R₁)
+          </span>
+          <span className={cn("text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10", zoneTone)}>
+            {zoneLabel}
+          </span>
+        </div>
+
+        {/* Visual Channel Depth Bar */}
+        <div className="space-y-1.5 pt-1">
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="text-profit font-bold flex items-center gap-1">
+              <span className="size-2 rounded-full bg-profit" />
+              S₁: {toman(s1)} ت
+            </span>
+            <span className="text-gold font-black px-2.5 py-0.5 rounded bg-gold/10 border border-gold/25 num text-xs">
+              مظنه زنده: {toman(mazaneh)} تومان
+            </span>
+            <span className="text-loss font-bold flex items-center gap-1">
+              R₁: {toman(r1)} ت
+              <span className="size-2 rounded-full bg-loss" />
+            </span>
+          </div>
+
+          <div className="relative h-3 w-full rounded-full bg-muted/50 p-0.5 border border-border/60 overflow-hidden">
+            {/* Background Multi-zone gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-profit/30 via-amber-500/20 to-loss/30" />
+            {/* Center Pivot Tick */}
+            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/30 -translate-x-1/2 z-0" />
+            {/* Real-time Indicator Cursor */}
+            <div
+              className="absolute top-0 bottom-0 w-3 rounded-full bg-gold shadow-[0_0_10px_rgba(255,215,0,0.95)] border border-white/90 z-10 transition-all duration-500"
+              style={{
+                left: `${posPct}%`,
+                transform: "translateX(-50%)",
+              }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-0.5">
+            <span className="text-profit num font-semibold">
+              حاشیه تا حمایت: +{distToSupPct.toFixed(2)}% ({toman(Math.abs(mazaneh - s1))} ت)
+            </span>
+            <span className="font-mono text-[10px] opacity-75">
+              عرض نوسان کانال: {toman(channelSpan)} ت
+            </span>
+            <span className="text-loss num font-semibold">
+              فاصله تا مقاومت: -{distToResPct.toFixed(2)}% ({toman(Math.abs(r1 - mazaneh))} ت)
+            </span>
+          </div>
+        </div>
+
+        {/* 3 Practical Technical Metrics */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 border-t border-border/40 text-xs">
+          <div className="rounded-lg bg-white/5 p-2.5 border border-white/5 flex flex-col justify-between">
+            <span className="text-[10px] text-muted-foreground block">پیوت محوری روز (Pivot):</span>
+            <span className="font-black text-foreground font-mono text-xs mt-1 num">
+              {toman(pivotPoint)} <span className="text-[10px] font-normal text-muted-foreground">تومان</span>
+            </span>
+          </div>
+
+          <div className="rounded-lg bg-white/5 p-2.5 border border-white/5 flex flex-col justify-between">
+            <span className="text-[10px] text-muted-foreground block">استراتژی گام‌های انباشت:</span>
+            <span className={cn("font-bold text-xs mt-1", zoneTone)}>
+              {dcaAction}
+            </span>
+          </div>
+
+          <div className="rounded-lg bg-white/5 p-2.5 border border-white/5 flex flex-col justify-between">
+            <span className="text-[10px] text-muted-foreground block">شرط خروج از رنج (Breakout):</span>
+            <span className="font-black text-foreground font-mono text-xs mt-1 num">
+              تثبیت بالای {toman(r1)}
+            </span>
+          </div>
         </div>
       </div>
     </section>
